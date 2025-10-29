@@ -1,0 +1,6 @@
+[Details]
+  Icon = "Icon.png"
+  Name = "Timezones toolbox"
+  ID = "org.pasckosky.times"
+  Version = "0.1.1"
+  Build = 26
