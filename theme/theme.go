@@ -1,6 +1,7 @@
 package theme
 
 import (
+	"fmt"
 	"image/color"
 
 	"fyne.io/fyne/v2"
@@ -23,7 +24,19 @@ func (panelTheme) Color(c fyne.ThemeColorName, _ fyne.ThemeVariant) color.Color 
 		return color.Gray{Y: 128}
 	case theme.ColorNameShadow:
 		return color.RGBA{R: 0xcc, G: 0xcc, B: 0xcc, A: 0xcc}
+
+	case theme.ColorNameInputBackground:
+		return color.Gray{Y: 32}
+	case theme.ColorNameInputBorder:
+		return color.Black
+	case theme.ColorNameForeground:
+		return color.RGBA{R: 0x00, G: 0xff, B: 0xff, A: 0xff}
+
+	case theme.ColorNameSelection:
+		return color.RGBA{R: 0xa5, G: 0x80, B: 0x05, A: 0xff}
+
 	default:
+		fmt.Println(c)
 		return color.White
 	}
 }
@@ -47,7 +60,7 @@ func (panelTheme) Size(s fyne.ThemeSizeName) float32 {
 	case theme.SizeNameScrollBarSmall:
 		return 5
 	case theme.SizeNameText:
-		return 32
+		return 16
 	case theme.SizeNameHeadingText:
 		return 30
 	case theme.SizeNameSubHeadingText:
