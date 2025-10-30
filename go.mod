@@ -1,4 +1,4 @@
-module github.com/pasckosky/times
+module github.com/pasckosky/timetools
 
 go 1.24.7
 

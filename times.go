@@ -15,7 +15,7 @@ import (
 	"fyne.io/fyne/v2/data/validation"
 	"fyne.io/fyne/v2/driver/mobile"
 	"fyne.io/fyne/v2/widget"
-	"github.com/pasckosky/times/theme"
+	"github.com/pasckosky/timetools/theme"
 )
 
 type timeEntry struct {

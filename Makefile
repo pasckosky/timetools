@@ -1,6 +1,6 @@
 
 ANDROID_TARGET=Pasckosky_TimezoneToolbox.apk
-LINUX_TARGET=times
+LINUX_TARGET=timetools
 
 
 .PHONY: all android linux clean run
