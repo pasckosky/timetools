@@ -7,7 +7,6 @@ import (
 	"log"
 	"sync"
 	"time"
-	tm "times/theme"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -16,6 +15,7 @@ import (
 	"fyne.io/fyne/v2/data/validation"
 	"fyne.io/fyne/v2/driver/mobile"
 	"fyne.io/fyne/v2/widget"
+	"github.com/pasckosky/times/theme"
 )
 
 type timeEntry struct {
@@ -207,7 +207,7 @@ func Init(id string, title string, width float32, height float32) *Applicazione 
 	a.win.SetContent(a.cont)
 	a.win.Resize(fyne.NewSize(width, height))
 
-	fyne.CurrentApp().Settings().SetTheme(tm.PanelTheme())
+	fyne.CurrentApp().Settings().SetTheme(theme.PanelTheme())
 
 	return &a
 }

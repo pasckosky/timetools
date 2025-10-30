@@ -1,4 +1,4 @@
-module times
+module github.com/pasckosky/times
 
 go 1.24.7
 
