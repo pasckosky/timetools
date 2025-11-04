@@ -13,9 +13,11 @@ import (
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/data/validation"
+	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/driver/mobile"
 	"fyne.io/fyne/v2/widget"
-	"github.com/pasckosky/timetools/theme"
+
+	datepicker "github.com/sdassow/fyne-datepicker"
 )
 
 type timeEntry struct {
@@ -73,6 +75,7 @@ func (a *Applicazione) toTime(tz, dateString string) time.Time {
 }
 
 func (a *Applicazione) setTimes(from string, value string) {
+	//fmt.Printf("%s > %s %v\n", from, value, a.converting)
 	if a.converting {
 		return
 	}
@@ -105,7 +108,7 @@ func (a *Applicazione) setTimes(from string, value string) {
 		return
 	}
 
-	fmt.Printf("Valid %s: %s\n", from, value)
+	//fmt.Printf("Valid %s: %s\n", from, value)
 
 	t0 := a.toTime(from, value)
 
@@ -131,8 +134,8 @@ func (a *Applicazione) setTimes(from string, value string) {
 
 func (a *Applicazione) Setup() {
 
-	clock := canvas.NewText("---", color.RGBA{R: 10, G: 20, B: 255, A: 255})
-	clock.TextSize = 64
+	clock := canvas.NewText("---", color.RGBA{R: 0xa0, G: 0xa0, B: 0xff, A: 255})
+	clock.TextSize = 32
 	clock.Alignment = fyne.TextAlignCenter
 	a.cont.Add(clock)
 
@@ -143,9 +146,9 @@ func (a *Applicazione) Setup() {
 		showTime := func(t time.Time) {
 			var f string
 			if t.Second()%2 == 0 {
-				f = "15:04"
+				f = "2006-01-02 15:04"
 			} else {
-				f = "15 04"
+				f = "2006-01-02 15 04"
 			}
 			clock.Text = t.Format(f)
 			fyne.Do(clock.Refresh)
@@ -162,16 +165,51 @@ func (a *Applicazione) Setup() {
 		}
 	}()
 
+	// https://github.com/sdassow/fyne-datepicker/blob/main/cmd/datepicker_demo/main.go
 	newEntry := func(placeholder string) (*timeEntry, *widget.Label) {
+
 		l := widget.NewLabel(placeholder)
-		a.cont.Add(l)
+
 		c := newTimeEntry()
 		c.SetPlaceHolder("Insert time YYYY-MM-DD hh:mm")
-		// add it now
-		a.cont.Add(c)
 		c.OnChanged = func(s string) {
 			a.setTimes(placeholder, s)
 		}
+
+		click_fn := func(c *timeEntry) func() {
+			t := time.Now()
+			return func() {
+				dp := datepicker.NewDateTimePicker(t, time.Monday, func(when time.Time, ok bool) {
+					if ok {
+						//fmt.Printf("when %s %v\n", placeholder, when)
+						vv := when.Format("2006-01-02 15:04")
+						c.SetText(vv)
+						a.setTimes(placeholder, vv)
+					}
+				})
+				dialog.ShowCustomConfirm(
+					"Choose",
+					"Ok",
+					"Cancel",
+					dp,
+					dp.OnActioned,
+					a.win,
+				)
+			}
+		}
+
+		b := widget.NewButton("Choose", click_fn(c))
+
+		s := widget.NewSeparator()
+
+		bx := container.NewHBox(b, l)
+
+		//a.cont.Add(l)
+		//a.cont.Add(b)
+		a.cont.Add(bx)
+		a.cont.Add(c)
+		a.cont.Add(s)
+
 		return c, l
 	}
 
@@ -207,7 +245,7 @@ func Init(id string, title string, width float32, height float32) *Applicazione 
 	a.win.SetContent(a.cont)
 	a.win.Resize(fyne.NewSize(width, height))
 
-	fyne.CurrentApp().Settings().SetTheme(theme.PanelTheme())
+	//fyne.CurrentApp().Settings().SetTheme(theme.PanelTheme())
 
 	return &a
 }

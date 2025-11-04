@@ -15,11 +15,11 @@ type panelTheme struct {
 func (panelTheme) Color(c fyne.ThemeColorName, _ fyne.ThemeVariant) color.Color {
 	switch c {
 	case theme.ColorNameBackground:
-		return color.Gray{Y: 64}
+		return color.Gray{Y: 0x80}
 	case theme.ColorNameButton, theme.ColorNameDisabled:
-		return color.White
+		return color.Gray{Y: 0xc0}
 	case theme.ColorNamePlaceHolder, theme.ColorNameScrollBar:
-		return color.RGBA{R: 255, G: 0, B: 0, A: 255}
+		return color.Gray{Y: 128} //color.RGBA{R: 255, G: 0, B: 0, A: 255}
 	case theme.ColorNamePrimary, theme.ColorNameHover, theme.ColorNameFocus:
 		return color.Gray{Y: 128}
 	case theme.ColorNameShadow:
@@ -30,11 +30,13 @@ func (panelTheme) Color(c fyne.ThemeColorName, _ fyne.ThemeVariant) color.Color 
 	case theme.ColorNameInputBorder:
 		return color.Black
 	case theme.ColorNameForeground:
-		return color.RGBA{R: 0x00, G: 0xff, B: 0xff, A: 0xff}
+		return color.RGBA{R: 0x00, G: 0x00, B: 0xff, A: 0xff}
 
 	case theme.ColorNameSelection:
 		return color.RGBA{R: 0xa5, G: 0x80, B: 0x05, A: 0xff}
 
+	case theme.ColorNameError:
+		return color.RGBA{R: 0xff, G: 0x00, B: 0x00, A: 0xff}
 	default:
 		fmt.Println(c)
 		return color.White
